@@ -41,13 +41,8 @@ class Game
 
 
   def switch_player
-    if @current_player == @players[0]
-      @current_player = @players[1]
-      @player_number = @players.index(@current_player) + 1
-    else
-      @current_player = @players[0]
-      @player_number = @players.index(@current_player) + 1
-    end
+    @current_player = (@current_player == @players[0]) ? @players[1] : @players[0]
+    @player_number = @players.index(@current_player) + 1
   end
 
   def turn_new_round

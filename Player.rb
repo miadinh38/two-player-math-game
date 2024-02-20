@@ -10,7 +10,3 @@ class Player
   end
 
 end
-
-player_live = Player.new
-
-pp player_live

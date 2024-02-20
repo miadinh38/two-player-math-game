@@ -7,7 +7,7 @@ class Question
   end
 
   def ask_question
-    "What does #{@num1} plus #{@num2} euqal?"
+    "What does #{@num1} plus #{@num2} equal?"
   end
 
   def is_answer_correct(guess)
@@ -15,7 +15,3 @@ class Question
   end
 
 end
-
-question = Question.new
-
-pp question

@@ -9,8 +9,6 @@ class Game
   end
 
   def run_game
-    @current_player = Player.new
-
     if @current_player.lives > 0
       run_round
       switch_player
@@ -20,30 +18,29 @@ class Game
   end
 
   def run_round
-    @current_player = Player.new
     @question = Question.new
     
     puts "#{@current_player}: #{@question.ask_question}"
     player_answer = gets.chomp.to_i
-    puts player_answer
-    check_player_answer(player_answer)
+    if @question.is_answer_correct(player_answer)
+      puts "Yes! You are correct."
+    else
+      puts "No, You're wrong."
+      @current_player.lose_life
+    end
+    # Display score 
+    puts "P1: #{@players[0].lives}/3 vs P2: #{@players[1].lives}/3"
+    puts "----- NEW TURN -----"
     
   end
 
-  def check_player_answer(answer)
-    if @question.is_answer_correct(answer)
-      puts "Yes! You are correct"
-    else
-      puts "No."
-      @current_player.lose_life
-    end
-  end
+
 
   def switch_player
     if @current_player == @players[0]
-      @current_player == @players[1]
+      @current_player = @players[1]
     else
-      @current_player == @players[0]
+      @current_player = @players[0]
     end
   end
 
@@ -58,6 +55,9 @@ class Game
 
 end
 
-game = Game.new(1, 2)
+player1 = Player.new
+player2 = Player.new
+game = Game.new(player1, player2)
+
 
 pp game.run_game

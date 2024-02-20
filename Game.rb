@@ -1,6 +1,3 @@
-require './Question'
-require './Player'
-
 class Game
 
   def initialize(player_1, player_2)
@@ -11,7 +8,7 @@ class Game
 
   def run_game
     loop do
-      if @current_player.lives > 0
+      if @players[0].lives > 0 && @players[1].lives > 0
         run_round
         switch_player
       else 
@@ -33,12 +30,15 @@ class Game
       puts "Player #{@player_number}: Seriously? No!"
       @current_player.lose_life
     end
-    # Display score 
-    puts "P1: #{@players[0].lives}/3 vs P2: #{@players[1].lives}/3"
-    puts "----- NEW TURN -----"
-    
+    display_score
   end
-
+  
+  def display_score
+    puts "P1: #{@players[0].lives}/3 vs P2: #{@players[1].lives}/3"
+    if @players[0].lives > 0 && @players[1].lives > 0
+      puts "----- NEW TURN -----"
+    end
+  end
 
   def switch_player
     @current_player = (@current_player == @players[0]) ? @players[1] : @players[0]
@@ -49,16 +49,11 @@ class Game
   end
 
   def end_game
-    puts "Player #{@player_number} wins with score..."
+    winner_player = @players[@player_number -1]
+    puts "Player #{@player_number} wins with score #{winner_player.lives}/3"
     puts " ---- GAME OVER ---- "
     puts "Goodbye!"
   end
 
 end
 
-player1 = Player.new
-player2 = Player.new
-game = Game.new(player1, player2)
-
-
-pp game.run_game

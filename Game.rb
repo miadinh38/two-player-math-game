@@ -6,26 +6,31 @@ class Game
   def initialize(player_1, player_2)
     @players = [ player_1, player_2 ]
     @current_player = @players[rand(0..1)] # select random player to play first
+    @player_number = @players.index(@current_player) + 1
   end
 
   def run_game
-    if @current_player.lives > 0
-      run_round
-      switch_player
+    loop do
+      if @current_player.lives > 0
+        run_round
+        switch_player
+      else 
+        end_game
+        break
+      end
     end
 
-    end_game
   end
 
   def run_round
     @question = Question.new
     
-    puts "#{@current_player}: #{@question.ask_question}"
+    puts "Player #{@player_number}: #{@question.ask_question}"
     player_answer = gets.chomp.to_i
     if @question.is_answer_correct(player_answer)
-      puts "Yes! You are correct."
+      puts "Player #{@player_number}: Yes! You are correct."
     else
-      puts "No, You're wrong."
+      puts "Player #{@player_number}: Seriously? No!"
       @current_player.lose_life
     end
     # Display score 
@@ -35,12 +40,13 @@ class Game
   end
 
 
-
   def switch_player
     if @current_player == @players[0]
       @current_player = @players[1]
+      @player_number = @players.index(@current_player) + 1
     else
       @current_player = @players[0]
+      @player_number = @players.index(@current_player) + 1
     end
   end
 
@@ -48,7 +54,7 @@ class Game
   end
 
   def end_game
-    puts "#{@current_player} wins with score..."
+    puts "Player #{@player_number} wins with score..."
     puts " ---- GAME OVER ---- "
     puts "Goodbye!"
   end
